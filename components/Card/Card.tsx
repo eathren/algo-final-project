@@ -7,7 +7,9 @@ type Rider = {
   lat: number;
 };
 
-type Props = { riders: Rider[] };
+// https://docs.mapbox.com/help/tutorials/use-mapbox-gl-js-with-react/#set-the-apps-default-state
+
+// type Props = { riders: Rider[] };
 
 const Card = (props: Props) => {
   return (

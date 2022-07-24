@@ -9,7 +9,6 @@ const Map = ReactMapboxGl({
 
 const MapContainer = (props: Props) => {
   return (
-    // in render()
     <Map
       style="mapbox://styles/mapbox/streets-v9"
       containerStyle={{
@@ -17,11 +16,8 @@ const MapContainer = (props: Props) => {
         width: "100vw",
       }}
       className="z-40"
+      zoom={[12]}
       center={[-71.069387, 42.350795]}
-      // fitBounds={[
-      // [-71.0, 42.2],
-      // [-71.169387, 42.5],
-      // ]}
     >
       <Layer type="symbol" id="marker" layout={{ "icon-image": "marker-15" }}>
         <Feature coordinates={[-0.481747846041145, 51.3233379650232]} />
