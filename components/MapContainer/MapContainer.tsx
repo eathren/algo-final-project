@@ -16,7 +16,12 @@ const MapContainer = (props: Props) => {
         height: "100vh",
         width: "100vw",
       }}
+      className="z-40"
       center={[-71.069387, 42.350795]}
+      // fitBounds={[
+      // [-71.0, 42.2],
+      // [-71.169387, 42.5],
+      // ]}
     >
       <Layer type="symbol" id="marker" layout={{ "icon-image": "marker-15" }}>
         <Feature coordinates={[-0.481747846041145, 51.3233379650232]} />

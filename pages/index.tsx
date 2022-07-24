@@ -1,7 +1,8 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import Card from "../components/Card";
+import MapContainer from "../components/MapContainer";
 import styles from "../styles/Home.module.css";
-import MapContainer from "./components/MapContainer";
 
 const Home: NextPage = () => {
   return (
@@ -15,7 +16,10 @@ const Home: NextPage = () => {
       <main>
         {/* Add if user not logged in logic, force login
         else showmap */}
-        <MapContainer />
+        <div style={{ height: "100%", width: "100%" }}>
+          <MapContainer />
+          <Card />
+        </div>
       </main>
     </div>
   );
