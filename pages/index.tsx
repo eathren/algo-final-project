@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
+import MapContainer from "./components/MapContainer";
 
 const Home: NextPage = () => {
   return (
@@ -11,7 +12,11 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main></main>
+      <main>
+        {/* Add if user not logged in logic, force login
+        else showmap */}
+        <MapContainer />
+      </main>
     </div>
   );
 };
