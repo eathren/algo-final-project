@@ -7,7 +7,12 @@ const Map = ReactMapboxGl({
   accessToken: process.env.NEXT_PUBLIC_MAPBOX_TOKEN || "",
 });
 
-const MapContainer = (props: Props) => {
+const MapContainer = () => {
+  function handleClick(_map: any, event: any) {
+    var lngLat = event.lngLat;
+    console.log(lngLat);
+  }
+
   return (
     <Map
       style="mapbox://styles/mapbox/streets-v9"
@@ -15,6 +20,7 @@ const MapContainer = (props: Props) => {
         height: "100vh",
         width: "100vw",
       }}
+      onClick={handleClick}
       className="z-40"
       zoom={[12]}
       center={[-71.069387, 42.350795]}
