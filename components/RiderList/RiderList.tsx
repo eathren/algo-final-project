@@ -1,8 +1,8 @@
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { Rider } from "../../types/Rider";
 import { initialRiders } from "./initialRiders";
-
-// https://docs.mapbox.com/help/tutorials/use-mapbox-gl-js-with-react/#set-the-apps-default-state
+// https://docs.mapbox.com/help/timport uuid4 from "uuid4";utorials/use-mapbox-gl-js-with-react/#set-the-apps-default-state
 
 // type Props = { riders: Rider[] };
 const NewRiderCard = () => {};
@@ -10,11 +10,17 @@ const NewRiderCard = () => {};
 const RiderList = () => {
   const [riders, setRiders] = useState<Rider[]>([]);
   const [showNewRiderCard, setShowNewRiderCard] = useState(false);
+  const [name, setName] = useState("");
   const mapClick = () => {
     // return Geolocation.getCurrentPosition();
   };
 
-  const addRider = () => {};
+  const addRider = () => {
+    const newRider: Rider = {
+      id: uuidv4(),
+      name: name,
+    };
+  };
 
   const populateRiders = () => {
     setRiders([...riders, ...initialRiders]);
@@ -34,12 +40,15 @@ const RiderList = () => {
             </h5>
             {/* <p className="text-gray-700 text-base mb-4">Names</p> */}
             <>
-              {riders.map((user) => {
+              {riders.map((rider) => {
                 return (
-                  <div className="pb-5" key={user.id}>
+                  <div className="pb-5" key={rider.id}>
                     <h5 className="text-left text-gray-900 text-md font-small ">
-                      {user.name}
+                      {rider.name}
                     </h5>
+                    <p className="text-left text-gray-900 text-md font-small ">
+                      ({rider.latitude}, {rider.longitude})
+                    </p>
                   </div>
                 );
               })}
@@ -52,6 +61,7 @@ const RiderList = () => {
               >
                 Add Rider
               </button>
+              {/* TODO. Only let users populate list once. Geo codes will stack. */}
               <button
                 onClick={() => populateRiders()}
                 type="button"
