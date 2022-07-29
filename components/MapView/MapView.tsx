@@ -1,17 +1,22 @@
-import MapContainer from "../MapContainer";
+import CytoscapeComponent from "react-cytoscapejs";
 import RiderList from "../RiderList";
 
-type Props = {};
+import { geoJson } from "./GeoJson";
 
-const MapView = (props: Props) => {
-  return (
-    <div>
-      <div style={{ height: "100%", width: "100%" }}>
-        <MapContainer />
+const MapView = () => {
+  if (typeof window !== "undefined" && geoJson) {
+    return (
+      <div>
         <RiderList />
+        <CytoscapeComponent
+          elements={geoJson}
+          style={{ width: "1920px", height: "1080px", margin: "20px" }}
+        />
       </div>
-    </div>
-  );
+    );
+  } else {
+    return <></>;
+  }
 };
 
 export default MapView;

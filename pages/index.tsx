@@ -1,13 +1,17 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import MapView from "../components/MapView";
-import styles from "../styles/Home.module.css";
-
 // todo: add state management -> zustand
+
+import dynamic from "next/dynamic";
+
+const MapComponent = dynamic(() => import("../components/MapView"), {
+  // Do not import in server side
+  ssr: false,
+});
 
 const Home: NextPage = () => {
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <title>Rideshare Efficient Pathing</title>
         <meta name="description" content="Ride share efficient pathing" />
@@ -18,7 +22,7 @@ const Home: NextPage = () => {
         {/* Add if user not logged in logic, force login
         else showmap */}
         <div style={{ height: "100%", width: "100%" }}>
-          <MapView />
+          <MapComponent />
         </div>
       </main>
     </div>
