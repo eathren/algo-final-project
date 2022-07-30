@@ -27,9 +27,12 @@ export type Edge = {
 };
 
 /**
- * Returns a WIDTH by HEIGHT grid of connected nodes.
+ * Returns a HEIGHT by WIDTH grid of connected nodes.
+ * This grid is connected by grids, bidirectionally. That is,
+ * every edge goes both direction.
+ * Note, we can likely add a high % chance with random generators to mix this up.
  */
-export const createTaxiGraph = (height = 20, width = 25): TaxiGraph => {
+export const createTaxiGraph = (height = 20, width = 15): TaxiGraph => {
   const outputData = [];
 
   let curr_id = 0;
@@ -37,10 +40,10 @@ export const createTaxiGraph = (height = 20, width = 25): TaxiGraph => {
   let curr_x = 0;
 
   // POPULATES NODES
-  for (let i = 0; i <= height; i++) {
+  for (let i = 0; i < height; i++) {
     curr_x = 50;
     curr_y += 50;
-    for (let j = 0; j <= width; j++) {
+    for (let j = 0; j < width; j++) {
       const c_id = curr_id.toString();
 
       const newNode: Node = {
@@ -56,34 +59,34 @@ export const createTaxiGraph = (height = 20, width = 25): TaxiGraph => {
   let source = 0;
   let target = 1;
 
+  //   Populate edges
   for (let i = 0; i < height; i++) {
     for (let j = 0; j < width; j++) {
-      if (source < height * width) {
-        const outgoingEdge: Edge = createEdge(source, target, "", 150);
-        const incomingEdge: Edge = createEdge(target, source, "", 150);
+      if (target <= height * width) {
+        if (target % width != 0) {
+          const outgoingEdge: Edge = createEdge(source, target, "", 150);
+          outputData.push(outgoingEdge);
+          const incomingEdge: Edge = createEdge(target, source, "", 150);
+          outputData.push(incomingEdge);
+        }
 
-        outputData.push(outgoingEdge);
-        outputData.push(incomingEdge);
-        if (source >= height + 1) {
-          const upwardsEdge: Edge = createEdge(
-            source,
-            source - height - 1,
-            "",
-            150
-          );
-          outputData.push(upwardsEdge);
-
+        if (source + width < width * height) {
           const downwardsEdge: Edge = createEdge(
-            source - height - 1,
             source,
+            source + width,
             "",
             150
           );
           outputData.push(downwardsEdge);
         }
-        source += 1;
-        target += 1;
+
+        if (source > width) {
+          const upwardsEdge: Edge = createEdge(source, source - width, "", 150);
+          outputData.push(upwardsEdge);
+        }
       }
+      source += 1;
+      target += 1;
     }
   }
   return outputData;

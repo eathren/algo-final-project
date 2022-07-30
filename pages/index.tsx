@@ -18,7 +18,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
+      <main className="max-h-full overflow-y-hidden">
         {/* Add if user not logged in logic, force login
         else showmap */}
         <div style={{ height: "100%", width: "100%" }}>

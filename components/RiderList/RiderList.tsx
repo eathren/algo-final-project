@@ -31,27 +31,29 @@ const RiderList = () => {
   };
 
   return (
-    <div className="absolute bottom-0 left-1 z-50">
-      <div className="flex justify-center ">
-        <div className="rounded-lg shadow-lg bg-white max-w-sm">
+    <div className=" max-h-screen bg-slate-800 z-50 p-2">
+      <div className=" justify-center ">
+        <div className="rounded-lg shadow-lg bg-white max-w-sm ">
           <div className="p-6">
             <h5 className="text-gray-900 text-xl font-medium mb-2 pb-5">
-              Riders waiting
+              {riders.length ? <>Riders waiting...</> : <>No Riders Yet.</>}
             </h5>
             {/* <p className="text-gray-700 text-base mb-4">Names</p> */}
             <>
-              {riders.map((rider) => {
-                return (
-                  <div className="pb-5" key={rider.id}>
-                    <h5 className="text-left text-gray-900 text-md font-small ">
-                      {rider.name}
-                    </h5>
-                    <p className="text-left text-gray-900 text-md font-small ">
-                      ({rider.latitude}, {rider.longitude})
-                    </p>
-                  </div>
-                );
-              })}
+              <div className="h-52 overflow-y-auto">
+                {riders.map((rider) => {
+                  return (
+                    <div className="pb-5" key={rider.id}>
+                      <h5 className="text-left text-gray-900 text-md font-small ">
+                        {rider.name}
+                      </h5>
+                      <p className="text-left text-gray-900 text-md font-small ">
+                        ({rider.latitude}, {rider.longitude})
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
             </>
             <div className="grid grid grid-cols-1 gap-4">
               <button
