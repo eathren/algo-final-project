@@ -1,15 +1,21 @@
+import { useEffect, useState } from "react";
 import CytoscapeComponent from "react-cytoscapejs";
+import { createTaxiGraph, TaxiGraph } from "../../Utils";
 import RiderList from "../RiderList";
 
-import { geoJson } from "./GeoJson";
-
 const MapView = () => {
-  if (typeof window !== "undefined" && geoJson) {
+  const [graphData, setGraphData] = useState<TaxiGraph>([]);
+
+  useEffect(() => {
+    setGraphData(createTaxiGraph(20, 20));
+  }, []);
+
+  if (typeof window !== "undefined" && graphData.length) {
     return (
       <div>
         <RiderList />
         <CytoscapeComponent
-          elements={geoJson}
+          elements={graphData}
           style={{ width: "1920px", height: "1080px", margin: "20px" }}
         />
       </div>
