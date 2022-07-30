@@ -1,4 +1,5 @@
 import "mapbox-gl/dist/mapbox-gl.css";
+import React from "react";
 import ReactMapboxGl, { Feature, Layer } from "react-mapbox-gl";
 
 type Props = {};
@@ -12,7 +13,7 @@ const MapContainer = () => {
     var lngLat = event.lngLat;
     console.log(lngLat);
   }
-
+  const cyRef = React.useRef<cytoscape.Core | undefined>();
   return (
     <Map
       style="mapbox://styles/mapbox/streets-v9"

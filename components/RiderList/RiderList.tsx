@@ -38,7 +38,6 @@ const RiderList = () => {
             <h5 className="text-gray-900 text-xl font-medium mb-2 pb-5">
               {riders.length ? <>Riders waiting...</> : <>No Riders Yet.</>}
             </h5>
-            {/* <p className="text-gray-700 text-base mb-4">Names</p> */}
             <>
               <div className="h-52 overflow-y-auto">
                 {riders.map((rider) => {
