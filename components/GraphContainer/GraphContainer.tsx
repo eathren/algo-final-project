@@ -4,7 +4,7 @@ import { Config, names, uniqueNamesGenerator } from "unique-names-generator";
 import { v4 as uuidv4 } from "uuid";
 import { Rider } from "../../types/Rider";
 
-import { createTaxiGraph, TaxiGraph } from "../../Utils";
+import { createTaxiGraph, TaxiGraph } from "../../utils";
 
 import RiderList from "../RiderList";
 
