@@ -29,9 +29,7 @@ const RiderList = (props: Props) => {
       <div className=" justify-center pt-2 pb-2">
         <div className="rounded-lg shadow-lg bg-white max-w-sm ">
           <div className="p-3">
-            <h5 className="text-gray-900 text-xl font-medium mb-2 pb-5">
-              Graph
-            </h5>
+            <h5 className="text-gray-900 text-xl font-medium mb-2 ">Graph</h5>
             <div className="flex justify-center">
               <div className="mb-3 xl:w-96">
                 <label className="form-label inline-block mb-2 text-gray-700">
@@ -100,7 +98,7 @@ const RiderList = (props: Props) => {
       <div className=" justify-center ">
         <div className="rounded-lg shadow-lg bg-white max-w-sm ">
           <div className="p-3">
-            <h5 className="text-gray-900 text-xl font-medium mb-2 pb-5">
+            <h5 className="text-gray-900 text-xl font-medium mb-2 ">
               {props.riders.length ? (
                 <>Riders waiting...</>
               ) : (

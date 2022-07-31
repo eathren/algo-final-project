@@ -15,8 +15,8 @@ const config: Config = {
 const GraphContainer = () => {
   const [graphData, setGraphData] = useState<TaxiGraph>([]);
   const [riders, setRiders] = useState<Rider[]>([]);
-  const [height, setHeight] = useState(20);
-  const [width, setWidth] = useState(25);
+  const [height, setHeight] = useState(12);
+  const [width, setWidth] = useState(12);
   const [numRiders, setNumRiders] = useState(10);
 
   const [showNewRiderCard, setShowNewRiderCard] = useState(false);
@@ -101,7 +101,7 @@ const GraphContainer = () => {
               },
             },
           ]}
-          style={{ width: "1920px", height: "1080px", margin: "20px" }}
+          style={{ margin: "5px" }}
         />
       </div>
     );
