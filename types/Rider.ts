@@ -3,6 +3,5 @@
 export type Rider = {
   id: string;
   name: string;
-  longitude: number;
-  latitude: number;
+  node: string;
 };

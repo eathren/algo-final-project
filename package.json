@@ -17,6 +17,7 @@
     "react-cytoscapejs": "^1.2.1",
     "react-dom": "18.2.0",
     "react-mapbox-gl": "^5.1.1",
+    "unique-names-generator": "^4.7.1",
     "uuid": "^8.3.2",
     "zustand": "^4.0.0"
   },

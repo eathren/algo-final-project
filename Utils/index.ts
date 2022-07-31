@@ -32,7 +32,7 @@ export type Edge = {
  * every edge goes both direction.
  * Note, we can likely add a high % chance with random generators to mix this up.
  */
-export const createTaxiGraph = (height = 20, width = 15): TaxiGraph => {
+export const createTaxiGraph = (height = 20, width = 25): TaxiGraph => {
   const outputData = [];
 
   let curr_id = 0;

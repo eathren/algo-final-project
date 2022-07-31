@@ -4,7 +4,7 @@ import Head from "next/head";
 
 import dynamic from "next/dynamic";
 
-const MapComponent = dynamic(() => import("../components/MapView"), {
+const GraphContainer = dynamic(() => import("../components/GraphContainer"), {
   // Do not import in server side
   ssr: false,
 });
@@ -22,7 +22,7 @@ const Home: NextPage = () => {
         {/* Add if user not logged in logic, force login
         else showmap */}
         <div style={{ height: "100%", width: "100%" }}>
-          <MapComponent />
+          <GraphContainer />
         </div>
       </main>
     </div>
