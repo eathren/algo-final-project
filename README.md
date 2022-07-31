@@ -4,7 +4,17 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 Note: css classes are tailwindcss.
 
-First, run the development server:
+
+For teammates: Send me your email/github username and I will sned you an access invite to that email.
+
+For people new to frontend. Install Node(if you haven't already), to get access to NPM, a package manager. 
+
+Personally I prever Yarn. You can get it after you download node/npm by running ```npm install --global yarn```
+
+Download the packages in this repo by running either ```yarn``` or ```npm install```. 
+
+
+Then, run the development server:
 
 ```bash
 npm run dev

@@ -19,10 +19,7 @@ const GraphContainer = () => {
   const [width, setWidth] = useState(12);
   const [numRiders, setNumRiders] = useState(10);
 
-  const [showNewRiderCard, setShowNewRiderCard] = useState(false);
-  const mapClick = () => {
-    // return Geolocation.getCurrentPosition();
-  };
+  // TODO: https://github.com/plotly/react-cytoscapejs/issues/46s
 
   // populates the inital graph, and any changes
   useMemo(() => {
