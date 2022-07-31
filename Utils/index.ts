@@ -62,31 +62,24 @@ export const createTaxiGraph = (height: number, width: number): TaxiGraph => {
   //   Populate edges
   for (let i = 0; i < height; i++) {
     for (let j = 0; j < width; j++) {
-      if (target <= numNodes && source <= numNodes) {
-        if (target % width != 0) {
-          const outgoingEdge: Edge = createEdge(source, target, "", 150);
-          outputData.push(outgoingEdge);
-          const incomingEdge: Edge = createEdge(target, source, "", 150);
-          outputData.push(incomingEdge);
-        }
-
-        if (source + width < width * height) {
-          const downwardsEdge: Edge = createEdge(
-            source,
-            source + width,
-            "",
-            150
-          );
-          outputData.push(downwardsEdge);
-        }
-
-        if (source > width) {
-          const upwardsEdge: Edge = createEdge(source, source - width, "", 150);
-          outputData.push(upwardsEdge);
-        }
-        source += 1;
-        target += 1;
+      if (target % width != 0) {
+        const outgoingEdge: Edge = createEdge(source, target, "", 150);
+        outputData.push(outgoingEdge);
+        const incomingEdge: Edge = createEdge(target, source, "", 150);
+        outputData.push(incomingEdge);
       }
+
+      if (source + width < numNodes) {
+        const downwardsEdge: Edge = createEdge(source + width, source, "", 150);
+        outputData.push(downwardsEdge);
+      }
+
+      if (source >= width) {
+        const upwardsEdge: Edge = createEdge(source - width, source, "", 150);
+        outputData.push(upwardsEdge);
+      }
+      source += 1;
+      target += 1;
     }
   }
   return outputData;

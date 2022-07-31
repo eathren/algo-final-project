@@ -23,8 +23,9 @@ const GraphContainer = () => {
 
   // populates the inital graph, and any changes
   useMemo(() => {
-    setGraphData(createTaxiGraph(height, width));
+    setGraphData([]);
     setRiders([]);
+    setGraphData(createTaxiGraph(height, width));
   }, [height, width]);
 
   const populateRiders = () => {
@@ -60,6 +61,7 @@ const GraphContainer = () => {
   };
 
   const cyRef = React.useRef<cytoscape.Core | undefined>();
+
   if (typeof window !== "undefined") {
     return (
       <div className="h-screen max-h-screen grid grid-cols-5">

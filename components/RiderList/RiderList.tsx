@@ -57,7 +57,7 @@ const RiderList = (props: Props) => {
                   id="riderInput"
                   placeholder="0"
                   onChange={props.onHeightChange}
-                  value={props.height}
+                  value={props.height as number}
                 />
               </div>
             </div>
@@ -88,7 +88,7 @@ const RiderList = (props: Props) => {
                   id="riderInput"
                   placeholder="0"
                   onChange={props.onWidthChange}
-                  value={props.width}
+                  value={props.width as number}
                 />
               </div>
             </div>
