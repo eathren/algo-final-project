@@ -65,7 +65,7 @@ const GraphContainer = () => {
   const cyRef = React.useRef<cytoscape.Core | undefined>();
   if (typeof window !== "undefined") {
     return (
-      <div className="max-h-screen grid grid-cols-5">
+      <div className="h-screen max-h-screen grid grid-cols-5">
         <RiderList
           height={height}
           width={width}

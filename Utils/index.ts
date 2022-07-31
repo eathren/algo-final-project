@@ -25,14 +25,13 @@ export type EdgeData = {
 export type Edge = {
   data: EdgeData;
 };
-
 /**
  * Returns a HEIGHT by WIDTH grid of connected nodes.
  * This grid is connected by grids, bidirectionally. That is,
  * every edge goes both direction.
  * Note, we can likely add a high % chance with random generators to mix this up.
  */
-export const createTaxiGraph = (height = 20, width = 25): TaxiGraph => {
+export const createTaxiGraph = (height: number, width: number): TaxiGraph => {
   const outputData = [];
 
   let curr_id = 0;

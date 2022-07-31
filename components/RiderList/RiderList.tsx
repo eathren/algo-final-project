@@ -25,7 +25,7 @@ const RiderList = (props: Props) => {
   // };
 
   return (
-    <div className=" max-h-screen bg-slate-800 z-50 p-2">
+    <div className="h-screen max-h-screen bg-slate-800 z-50 p-2">
       <div className=" justify-center pt-2 pb-2">
         <div className="rounded-lg shadow-lg bg-white max-w-sm ">
           <div className="p-3">
@@ -138,22 +138,22 @@ const RiderList = (props: Props) => {
                   <input
                     type="number"
                     className="
-        form-control
-        block
-        w-full
-        px-3
-        py-1.5
-        text-base
-        font-normal
-        text-gray-700
-        bg-white bg-clip-padding
-        border border-solid border-gray-300
-        rounded
-        transition
-        ease-in-out
-        m-0
-        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-      "
+                      form-control
+                      block
+                      w-full
+                      px-3
+                      py-1.5
+                      text-base
+                      font-normal
+                      text-gray-700
+                      bg-white bg-clip-padding
+                      border border-solid border-gray-300
+                      rounded
+                      transition
+                      ease-in-out
+                      m-0
+                      focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+                    "
                     id="riderInput"
                     placeholder="0"
                     onChange={props.onNumRidersChange}
