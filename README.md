@@ -4,6 +4,10 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 Note: css classes are tailwindcss.
 
+Grid is currently entirely composed of bidirectional edges, with weights of 150. We can likely randomize this to some extent to get more of a street-map looking view, or use a cytoscape layout for a more graph-looking view. 
+
+Please note that the current design makes it look like there is only a single edge between nodes, when in fact there are two, but the default curve made this graph pretty confusing, so I kept them straight for now until we modify conditions. 
+
 
 For teammates: Send me your email/github username and I will sned you an access invite to that email.
 

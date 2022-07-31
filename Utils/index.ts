@@ -58,10 +58,11 @@ export const createTaxiGraph = (height: number, width: number): TaxiGraph => {
   let source = 0;
   let target = 1;
 
+  const numNodes = height * width;
   //   Populate edges
   for (let i = 0; i < height; i++) {
     for (let j = 0; j < width; j++) {
-      if (target <= height * width) {
+      if (target <= numNodes && source <= numNodes) {
         if (target % width != 0) {
           const outgoingEdge: Edge = createEdge(source, target, "", 150);
           outputData.push(outgoingEdge);
@@ -83,9 +84,9 @@ export const createTaxiGraph = (height: number, width: number): TaxiGraph => {
           const upwardsEdge: Edge = createEdge(source, source - width, "", 150);
           outputData.push(upwardsEdge);
         }
+        source += 1;
+        target += 1;
       }
-      source += 1;
-      target += 1;
     }
   }
   return outputData;
