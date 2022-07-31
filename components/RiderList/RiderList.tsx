@@ -1,4 +1,4 @@
-import { ChangeEventHandler, MouseEventHandler, useState } from "react";
+import { ChangeEventHandler, useState } from "react";
 import { Rider } from "../../types/Rider";
 
 type Props = {
@@ -9,8 +9,8 @@ type Props = {
   onHeightChange: ChangeEventHandler<HTMLInputElement> | undefined;
   onWidthChange: ChangeEventHandler<HTMLInputElement> | undefined;
   onNumRidersChange: ChangeEventHandler<HTMLInputElement> | undefined;
-  populateRiders: MouseEventHandler<HTMLButtonElement> | undefined;
-  clearRiders: MouseEventHandler<HTMLButtonElement> | undefined;
+  populateRiders: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  clearRiders: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 const RiderList = (props: Props) => {

@@ -1,9 +1,11 @@
 import React, { useMemo, useState } from "react";
 import CytoscapeComponent from "react-cytoscapejs";
+import { Config, names, uniqueNamesGenerator } from "unique-names-generator";
+import { v4 as uuidv4 } from "uuid";
 import { Rider } from "../../types/Rider";
+
 import { createTaxiGraph, TaxiGraph } from "../../Utils";
 
-import { Config, names } from "unique-names-generator";
 import RiderList from "../RiderList";
 
 const config: Config = {
@@ -18,7 +20,6 @@ const GraphContainer = () => {
   const [numRiders, setNumRiders] = useState(10);
 
   const [showNewRiderCard, setShowNewRiderCard] = useState(false);
-  const [name, setName] = useState("");
   const mapClick = () => {
     // return Geolocation.getCurrentPosition();
   };
@@ -26,6 +27,7 @@ const GraphContainer = () => {
   // populates the inital graph, and any changes
   useMemo(() => {
     setGraphData(createTaxiGraph(height, width));
+    setRiders([]);
   }, [height, width]);
 
   const populateRiders = () => {
@@ -109,9 +111,3 @@ const GraphContainer = () => {
 };
 
 export default GraphContainer;
-function uuidv4(): string {
-  throw new Error("Function not implemented.");
-}
-function uniqueNamesGenerator(config: any): string {
-  throw new Error("Function not implemented.");
-}
