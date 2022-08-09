@@ -16,6 +16,7 @@ type Props = {
   clearRiders: (event: React.MouseEvent<HTMLButtonElement>) => void;
   populateTaxis: (event: React.MouseEvent<HTMLButtonElement>) => void;
   clearTaxis: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  calculatePaths: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 const RiderList = (props: Props) => {
@@ -244,6 +245,23 @@ const RiderList = (props: Props) => {
               >
                 Clear Taxis
               </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className=" justify-center pt-2 pb-2 ">
+        <div className="rounded-lg shadow-lg bg-white max-w-sm ">
+          <div className="p-3">
+            <div className="flex justify-center">
+              <div className="mb-0 xl:w-96">
+                <button
+                  type="button"
+                  onClick={props.calculatePaths}
+                  className="inline-block px-6 py-2.5 h-20 w-full bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out"
+                >
+                  Calculate Paths
+                </button>
+              </div>
             </div>
           </div>
         </div>

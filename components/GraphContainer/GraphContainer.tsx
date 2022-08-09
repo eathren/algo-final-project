@@ -29,12 +29,12 @@ const GraphContainer = () => {
 
   // populates the inital graph, and any changes
   useMemo(() => {
-    setGraphData([]);
     setRiders([]);
+    setTaxis([]);
     setGraphData(createTaxiGraph(height, width));
   }, [height, width]);
 
-  const findPaths = () => {
+  const calculatePaths = () => {
     console.log("NULL FUNCTION");
   };
 
@@ -113,7 +113,7 @@ const GraphContainer = () => {
 
   if (typeof window !== "undefined") {
     return (
-      <div className="h-screen max-h-screen grid grid-cols-5">
+      <div className="static  h-screen max-h-screen grid grid-cols-5">
         <RiderList
           height={height}
           width={width}
@@ -124,12 +124,13 @@ const GraphContainer = () => {
           onHeightChange={onHeightChange}
           onWidthChange={onWidthChange}
           onNumRidersChange={onNumRidersChange}
+          onNumTaxisChange={onNumTaxisChange}
           populateRiders={populateRiders}
           clearRiders={clearRiders}
           populateTaxis={populateTaxis}
           clearTaxis={clearTaxis}
+          calculatePaths={calculatePaths}
         />
-
         <CytoscapeComponent
           cy={(cy) => (cyRef.current = cy)}
           className="col-span-4"
