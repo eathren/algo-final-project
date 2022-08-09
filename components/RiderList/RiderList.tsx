@@ -11,6 +11,7 @@ type Props = {
   onHeightChange: ChangeEventHandler<HTMLInputElement> | undefined;
   onWidthChange: ChangeEventHandler<HTMLInputElement> | undefined;
   onNumRidersChange: ChangeEventHandler<HTMLInputElement> | undefined;
+  onNumTaxisChange: ChangeEventHandler<HTMLInputElement> | undefined;
   populateRiders: (event: React.MouseEvent<HTMLButtonElement>) => void;
   clearRiders: (event: React.MouseEvent<HTMLButtonElement>) => void;
   populateTaxis: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -27,7 +28,7 @@ const RiderList = (props: Props) => {
           <div className="p-3">
             <h5 className="text-gray-900 text-xl font-medium mb-2 ">Graph</h5>
             <div className="flex justify-center">
-              <div className="mb-3 xl:w-96">
+              <div className="mb-0 xl:w-96">
                 <label className="form-label inline-block mb-2 text-gray-700">
                   Height
                 </label>
@@ -58,7 +59,7 @@ const RiderList = (props: Props) => {
               </div>
             </div>
             {/* <div className="flex justify-center">
-              <div className="mb-3 xl:w-96">
+              <div className="mb-0 xl:w-96">
                 <label className="form-label inline-block mb-2 text-gray-700">
                   Width
                 </label>
@@ -120,7 +121,7 @@ const RiderList = (props: Props) => {
             <div className="grid grid grid-cols-1 gap-4">
               {/* TODO. Only let users populate list once. Geo codes will stack. */}
               <div className="flex justify-center">
-                <div className="mb-3 xl:w-96">
+                <div className="mb-0 xl:w-96">
                   <label className="form-label inline-block mb-2 text-gray-700">
                     # Riders
                   </label>
@@ -155,7 +156,7 @@ const RiderList = (props: Props) => {
                 type="button"
                 className=" inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
               >
-                Populate Other Riders
+                Populate Riders
               </button>
               <button
                 onClick={props.clearRiders}
@@ -193,13 +194,46 @@ const RiderList = (props: Props) => {
                 })}
               </div>
             </>
+
             <div className="grid grid grid-cols-1 gap-4">
+              <div className="flex justify-center">
+                <div className="mb-0 xl:w-96">
+                  <label className="form-label inline-block mb-2 text-gray-700">
+                    # Taxis
+                  </label>
+                  <input
+                    type="number"
+                    className="
+                      form-control
+                      block
+                      w-full
+                      px-3
+                      py-1.5
+                      text-base
+                      font-normal
+                      text-gray-700
+                      bg-white bg-clip-padding
+                      border border-solid border-gray-300
+                      rounded
+                      transition
+                      ease-in-out
+                      m-0
+                      focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+                    "
+                    id="riderInput"
+                    placeholder="0"
+                    onChange={props.onNumTaxisChange}
+                    value={props.numTaxis}
+                  />
+                </div>
+              </div>
+
               {/* TODO. Only let users populate list once. Geo codes will stack. */}
               <div className="flex justify-center"></div>
               <button
                 onClick={props.populateTaxis}
                 type="button"
-                className=" inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+                className=" inline-block px-6 py-2.5 bg-yellow-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-yellow-700 hover:shadow-lg focus:bg-yellow-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-800 active:shadow-lg transition duration-150 ease-in-out"
               >
                 Populate Taxis
               </button>

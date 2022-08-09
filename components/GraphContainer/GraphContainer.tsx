@@ -34,6 +34,10 @@ const GraphContainer = () => {
     setGraphData(createTaxiGraph(height, width));
   }, [height, width]);
 
+  const findPaths = () => {
+    console.log("NULL FUNCTION");
+  };
+
   const populateRiders = () => {
     const riders: Rider[] = [];
     for (let i = 0; i < numRiders; i++) {
@@ -99,6 +103,10 @@ const GraphContainer = () => {
 
   const onNumRidersChange = (event: { target: { value: any } }) => {
     setNumRiders(event.target.value);
+  };
+
+  const onNumTaxisChange = (event: { target: { value: any } }) => {
+    setNumTaxis(event.target.value);
   };
 
   const cyRef = React.useRef<cytoscape.Core | undefined>();
