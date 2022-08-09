@@ -53,25 +53,36 @@ const GraphContainer = () => {
     };
   };
 
-  const clearRiders = () => {
-    setRiders([]);
-  };
-
-  const clearTaxis = () => {
-    setRiders([]);
-  };
-
-  const createTaxi = () => {
+  const createRandomTaxi = () => {
     const node = 0;
     const characterName: string = uniqueNamesGenerator(config);
     const color = "#ffff00";
     return {
       id: uuidv4(),
       name: characterName,
-      node: node,
+      node: node.toString(),
       color: color,
       variant: Variant.taxi,
+      capacity: 4,
+      carrying: 0,
     };
+  };
+
+  const populateTaxis = () => {
+    const taxis: Taxi[] = [];
+    for (let i = 0; i < numTaxis; i++) {
+      const newTaxi = createRandomTaxi();
+      taxis.push(newTaxi);
+    }
+    setRiders(taxis);
+  };
+
+  const clearRiders = () => {
+    setRiders([]);
+  };
+
+  const clearTaxis = () => {
+    setRiders([]);
   };
 
   const onHeightChange = (event: { target: { value: any } }) => {
