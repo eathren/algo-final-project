@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 import CytoscapeComponent from "react-cytoscapejs";
 import { Config, names, uniqueNamesGenerator } from "unique-names-generator";
 import { v4 as uuidv4 } from "uuid";
-import { Rider } from "../../types/Rider";
+import { Rider, Taxi, Variant } from "../../types";
 
 import { createTaxiGraph, TaxiGraph } from "../../utils";
 
@@ -15,6 +15,8 @@ const config: Config = {
 const GraphContainer = () => {
   const [graphData, setGraphData] = useState<TaxiGraph>([]);
   const [riders, setRiders] = useState<Rider[]>([]);
+  const [taxis, setTaxis] = useState<Taxi[]>([]);
+  const [numTaxis, setNumTaxis] = useState(0);
   const [height, setHeight] = useState(12);
   const [width, setWidth] = useState(12);
   const [numRiders, setNumRiders] = useState(10);
@@ -41,11 +43,35 @@ const GraphContainer = () => {
     const numNodes = height * width;
     const node = Math.floor(Math.random() * numNodes).toString();
     const characterName: string = uniqueNamesGenerator(config);
-    return { id: uuidv4(), name: characterName, node: node };
+    const color = "#b0c4de";
+    return {
+      id: uuidv4(),
+      name: characterName,
+      node: node,
+      color: color,
+      variant: Variant.rider,
+    };
   };
 
   const clearRiders = () => {
     setRiders([]);
+  };
+
+  const clearTaxis = () => {
+    setRiders([]);
+  };
+
+  const createTaxi = () => {
+    const node = 0;
+    const characterName: string = uniqueNamesGenerator(config);
+    const color = "#ffff00";
+    return {
+      id: uuidv4(),
+      name: characterName,
+      node: node,
+      color: color,
+      variant: Variant.taxi,
+    };
   };
 
   const onHeightChange = (event: { target: { value: any } }) => {
@@ -70,11 +96,15 @@ const GraphContainer = () => {
           width={width}
           riders={riders}
           numRiders={numRiders}
+          taxis={taxis}
+          numTaxis={numTaxis}
           onHeightChange={onHeightChange}
           onWidthChange={onWidthChange}
           onNumRidersChange={onNumRidersChange}
           populateRiders={populateRiders}
           clearRiders={clearRiders}
+          populateTaxis={populateTaxis}
+          clearTaxis={clearTaxis}
         />
 
         <CytoscapeComponent
