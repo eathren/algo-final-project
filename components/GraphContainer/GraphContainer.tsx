@@ -16,10 +16,14 @@ const GraphContainer = () => {
   const [graphData, setGraphData] = useState<TaxiGraph>([]);
   const [riders, setRiders] = useState<Rider[]>([]);
   const [taxis, setTaxis] = useState<Taxi[]>([]);
-  const [numTaxis, setNumTaxis] = useState(0);
+  const [numTaxis, setNumTaxis] = useState(3);
   const [height, setHeight] = useState(12);
   const [width, setWidth] = useState(12);
   const [numRiders, setNumRiders] = useState(10);
+
+  // HERE. Probably an array of string ids, in order (?)
+  // if multiple paths, then that's going to be an array of arrays.
+  const [path, setPath] = useState([]);
 
   // TODO: https://github.com/plotly/react-cytoscapejs/issues/46s
 
@@ -74,7 +78,7 @@ const GraphContainer = () => {
       const newTaxi = createRandomTaxi();
       taxis.push(newTaxi);
     }
-    setRiders(taxis);
+    setTaxis(taxis);
   };
 
   const clearRiders = () => {
@@ -82,7 +86,7 @@ const GraphContainer = () => {
   };
 
   const clearTaxis = () => {
-    setRiders([]);
+    setTaxis([]);
   };
 
   const onHeightChange = (event: { target: { value: any } }) => {

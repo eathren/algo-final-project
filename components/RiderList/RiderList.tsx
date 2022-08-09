@@ -20,14 +20,6 @@ type Props = {
 const RiderList = (props: Props) => {
   const [showNewRiderCard, setShowNewRiderCard] = useState(false);
 
-  // const [name, setName] = useState("");
-  // const addRider = () => {
-  //   const newRider: Rider = {
-  //     id: uuidv4(),
-  //     name: name,
-  //   };
-  // };
-
   return (
     <div className="h-screen max-h-screen bg-slate-800 z-50 p-2  overflow-y-scroll">
       <div className=" justify-center pt-2 pb-2 ">
@@ -118,7 +110,7 @@ const RiderList = (props: Props) => {
                         {rider.name}
                       </h5>
                       <p className="text-left text-gray-900 text-md font-small ">
-                        Node: {rider.node}
+                        Position: Node {rider.node}
                       </p>
                     </div>
                   );
@@ -126,13 +118,6 @@ const RiderList = (props: Props) => {
               </div>
             </>
             <div className="grid grid grid-cols-1 gap-4">
-              {/* <button
-                onClick={() => addRider()}
-                type="button"
-                className=" inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-              >
-                Add Custom Rider
-              </button> */}
               {/* TODO. Only let users populate list once. Geo codes will stack. */}
               <div className="flex justify-center">
                 <div className="mb-3 xl:w-96">
@@ -183,26 +168,25 @@ const RiderList = (props: Props) => {
           </div>
         </div>
       </div>
-      <div className=" justify-center ">
+      <div className=" justify-center pt-2">
         <div className="rounded-lg shadow-lg bg-white max-w-sm ">
           <div className="p-3">
             <h5 className="text-gray-900 text-xl font-medium mb-2 ">
-              {props.taxis.length ? (
-                <>Riders waiting...</>
-              ) : (
-                <>No Riders Yet.</>
-              )}
+              {props.taxis.length ? <>Taxis waiting...</> : <>No Taxis Yet.</>}
             </h5>
             <>
               <div className="h-36 overflow-y-auto b-black">
-                {props.riders.map((rider) => {
+                {props.taxis.map((taxi) => {
                   return (
-                    <div className="pb-5" key={rider.id}>
+                    <div className="pb-5" key={taxi.id}>
                       <h5 className="text-left text-gray-900 text-md font-small ">
-                        {rider.name}
+                        {taxi.name}
                       </h5>
                       <p className="text-left text-gray-900 text-md font-small ">
-                        Node: {rider.node}
+                        Position: Node {taxi.node}
+                      </p>
+                      <p className="text-left text-gray-900 text-md font-small ">
+                        Capacity: {taxi.capacity}
                       </p>
                     </div>
                   );
@@ -213,18 +197,18 @@ const RiderList = (props: Props) => {
               {/* TODO. Only let users populate list once. Geo codes will stack. */}
               <div className="flex justify-center"></div>
               <button
-                onClick={props.populateRiders}
+                onClick={props.populateTaxis}
                 type="button"
                 className=" inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
               >
                 Populate Taxis
               </button>
               <button
-                onClick={props.clearRiders}
+                onClick={props.clearTaxis}
                 type="button"
                 className=" inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out"
               >
-                Clear Riders
+                Clear Taxis
               </button>
             </div>
           </div>
