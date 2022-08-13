@@ -39,15 +39,15 @@ const GraphContainer = () => {
   }, [height, width]);
 
   const calculatePaths = () => {
-    console.log(backendFormatGraph);
     console.log("NULL FUNCTION");
     if (numTaxis == 0 || !graphData || numRiders == 0) return;
     const output = {
       numOfCabs: numTaxis,
       numPerCar: 4,
-      source: { name: "0", x: 0, y: 0 },
+      source: { name: "0", x: "0", y: "0" },
       vertices: backendFormatGraph,
     };
+    console.log(output);
   };
 
   const populateRiders = () => {
