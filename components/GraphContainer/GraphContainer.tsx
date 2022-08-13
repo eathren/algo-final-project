@@ -4,7 +4,7 @@ import { Config, names, uniqueNamesGenerator } from "unique-names-generator";
 import { v4 as uuidv4 } from "uuid";
 import { Rider, Taxi, Variant } from "../../types";
 
-import { createTaxiGraph, TaxiGraph } from "../../utils";
+import { BackendFormatGraph, createTaxiGraph, TaxiGraph } from "../../utils";
 
 import RiderList from "../RiderList";
 
@@ -14,6 +14,8 @@ const config: Config = {
 
 const GraphContainer = () => {
   const [graphData, setGraphData] = useState<TaxiGraph>([]);
+  const [backendFormatGraph, setBackendFormatGraph] =
+    useState<BackendFormatGraph>();
   const [riders, setRiders] = useState<Rider[]>([]);
   const [taxis, setTaxis] = useState<Taxi[]>([]);
   const [numTaxis, setNumTaxis] = useState(3);
@@ -31,11 +33,21 @@ const GraphContainer = () => {
   useMemo(() => {
     setRiders([]);
     setTaxis([]);
-    setGraphData(createTaxiGraph(height, width));
+    const d = createTaxiGraph(height, width);
+    setGraphData(d[0]);
+    setBackendFormatGraph(d[1]);
   }, [height, width]);
 
   const calculatePaths = () => {
+    console.log(backendFormatGraph);
     console.log("NULL FUNCTION");
+    if (numTaxis == 0 || !graphData || numRiders == 0) return;
+    const output = {
+      numOfCabs: numTaxis,
+      numPerCar: 4,
+      source: { name: "0", x: 0, y: 0 },
+      vertices: backendFormatGraph,
+    };
   };
 
   const populateRiders = () => {

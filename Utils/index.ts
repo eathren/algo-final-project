@@ -1,3 +1,4 @@
+import { BackendFormatGraph } from "./index";
 export type TaxiGraph = Array<Node | Edge>;
 
 export type NodeData = {
@@ -13,6 +14,16 @@ export type NodePosition = {
 export type Node = {
   data: NodeData;
   position: NodePosition;
+};
+
+export type BackendFormatGraph = {
+  vertices: BackendFormatNode[];
+};
+
+export type BackendFormatNode = {
+  name: string;
+  x: string;
+  y: string;
 };
 
 export type EdgeData = {
@@ -31,8 +42,13 @@ export type Edge = {
  * every edge goes both direction.
  * Note, we can likely add a high % chance with random generators to mix this up.
  */
-export const createTaxiGraph = (height: number, width: number): TaxiGraph => {
+export const createTaxiGraph = (
+  height: number,
+  width: number
+): [TaxiGraph, BackendFormatGraph] => {
   const outputData = [];
+
+  const backendData: BackendFormatGraph = { vertices: [] };
 
   let curr_id = 0;
   let curr_y = 50;
@@ -49,7 +65,13 @@ export const createTaxiGraph = (height: number, width: number): TaxiGraph => {
         data: { id: c_id, label: `Node: ${c_id}` },
         position: { x: curr_x, y: curr_y },
       };
+      const backendNode: BackendFormatNode = {
+        name: c_id,
+        x: curr_x.toString(),
+        y: curr_y.toString(),
+      };
       outputData.push(newNode);
+      backendData.vertices.push(backendNode);
       curr_x += 100;
       curr_id += 1;
     }
@@ -82,7 +104,7 @@ export const createTaxiGraph = (height: number, width: number): TaxiGraph => {
       target += 1;
     }
   }
-  return outputData;
+  return [outputData, backendData];
 };
 
 const createEdge = (
