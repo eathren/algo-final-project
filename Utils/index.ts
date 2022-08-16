@@ -1,4 +1,3 @@
-import { BackendFormatGraph } from "./index";
 export type TaxiGraph = Array<Node | Edge>;
 
 export type NodeData = {
