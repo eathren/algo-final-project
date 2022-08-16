@@ -11,12 +11,10 @@
   "dependencies": {
     "cytoscape": "^3.22.1",
     "idb-keyval": "^6.2.0",
-    "mapbox-gl": "^2.9.2",
     "next": "12.2.3",
     "react": "18.2.0",
     "react-cytoscapejs": "^1.2.1",
     "react-dom": "18.2.0",
-    "react-mapbox-gl": "^5.1.1",
     "unique-names-generator": "^4.7.1",
     "uuid": "^8.3.2",
     "zustand": "^4.0.0"
