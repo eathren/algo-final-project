@@ -3,7 +3,11 @@ import CytoscapeComponent from "react-cytoscapejs";
 import { Config, names, uniqueNamesGenerator } from "unique-names-generator";
 import { v4 as uuidv4 } from "uuid";
 import { Rider, Taxi, Variant } from "../../types";
-import { BackendFormatGraph, createTaxiGraph, TaxiGraph } from "../../utils";
+import {
+  BackendFormatGraph,
+  createTaxiGraph,
+  TaxiGraph,
+} from "../../utils/utils";
 
 import RiderList from "../RiderList";
 
