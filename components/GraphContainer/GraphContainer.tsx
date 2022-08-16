@@ -47,6 +47,7 @@ const GraphContainer = () => {
       source: { name: "0", x: "0", y: "0" },
       vertices: backendFormatGraph,
     };
+    console.log(riders);
     console.log(output);
   };
 
@@ -61,7 +62,8 @@ const GraphContainer = () => {
 
   const createRandomRider = () => {
     const numNodes = height * width;
-    const source = Math.floor(Math.random() * numNodes).toString();
+    const source = "0";
+    // const source = Math.floor(Math.random() * numNodes).toString();
     const characterName: string = uniqueNamesGenerator(config);
     const color = "#b0c4de";
     const destination = Math.floor(Math.random() * numNodes).toString();
