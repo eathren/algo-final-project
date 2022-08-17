@@ -1,3 +1,4 @@
+import cytoscape from "cytoscape";
 import React, { useMemo, useState } from "react";
 import CytoscapeComponent from "react-cytoscapejs";
 import { Config, names, uniqueNamesGenerator } from "unique-names-generator";
@@ -8,8 +9,9 @@ import {
   createTaxiGraph,
   TaxiGraph,
 } from "../../utils/utils";
-
 import RiderList from "../RiderList";
+import dummyGroups from "./dummyData.json";
+import dummyOrder from "./dummyOrder.json";
 
 const config: Config = {
   dictionaries: [names],
@@ -25,7 +27,8 @@ const GraphContainer = () => {
   const [height, setHeight] = useState(12);
   const [width, setWidth] = useState(12);
   const [numRiders, setNumRiders] = useState(10);
-
+  const [groups, setGroups] = useState<any[]>([]);
+  const [order, setOrder] = useState<any[]>([]);
   // HERE. Probably an array of string ids, in order (?)
   // if multiple paths, then that's going to be an array of arrays.
   const [path, setPath] = useState([]);
@@ -41,6 +44,68 @@ const GraphContainer = () => {
     setBackendFormatGraph(d[1]);
   }, [height, width]);
 
+  // useEffect(() => {
+  // cy.nodes('[id = "yourId"]').style("background-color", "desiredColor");
+  // })
+
+  // cy.elements()
+  // cy.nodes()
+  // cy.edges()
+
+  const getGroups = async () => {
+    fetch("https://path-backend-service.herokuapp.com/path/getGroups", {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        numOfCabs: 4,
+        numPerCar: 5,
+        source: { name: "snell", x: 0, y: 0 },
+        vertices: [
+          { name: "a", x: 1, y: 1 },
+          { name: "b", x: 3, y: 5 },
+          { name: "c", x: 2, y: 4 },
+          { name: "d", x: -1, y: -5 },
+          { name: "e", x: 0, y: 7 },
+          { name: "f", x: -3, y: -5 },
+          { name: "g", x: 2, y: 8 },
+          { name: "h", x: -2, y: -6 },
+          { name: "i", x: 2, y: 9 },
+          { name: "j", x: 2, y: 0 },
+          { name: "k", x: 0, y: 2 },
+          { name: "l", x: -4, y: -2 },
+          { name: "m", x: 4, y: 7 },
+          { name: "n", x: -6, y: -2 },
+          { name: "o", x: 4, y: 8 },
+          { name: "p", x: 3, y: 0 },
+          { name: "q", x: 0, y: 3 },
+          { name: "r", x: -5, y: -4 },
+          { name: "s", x: 2, y: 2 },
+          { name: "t", x: -4, y: -4 },
+          { name: "u", x: 2, y: 7 },
+          { name: "v", x: 7, y: 0 },
+          { name: "x", x: 0, y: 4 },
+          { name: "y", x: -7, y: -1 },
+          { name: "z", x: 1, y: 3 },
+        ],
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data));
+  };
+
+  const getDummyGroups = () => {
+    const g: any = Object.entries(dummyGroups);
+    console.log("groups", g);
+    setGroups(g);
+  };
+
+  const getDummyOrder = () => {
+    const o: any[] = dummyOrder[0];
+    console.log("order", o);
+    setOrder(o);
+  };
+
   const calculatePaths = () => {
     console.log("NULL FUNCTION");
     if (numTaxis == 0 || !graphData || numRiders == 0) return;
@@ -50,8 +115,23 @@ const GraphContainer = () => {
       source: { name: "0", x: "0", y: "0" },
       vertices: backendFormatGraph,
     };
-    console.log(riders);
-    console.log(output);
+    // getGroups();
+    getDummyGroups();
+    getDummyOrder();
+
+    if (cyRef) {
+      // var dfs = cyRef?.current?.elements()
+      var dfs = cyRef?.current?.elements().aStar({
+        root: "#0",
+        goal: "#20",
+        directed: true,
+      });
+      console.log(dfs);
+      if (dfs) dfs.path.select();
+    }
+
+    // console.log(riders);
+    // console.log(output);
   };
 
   const populateRiders = () => {
