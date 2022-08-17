@@ -1,11 +1,11 @@
 import cytoscape from "cytoscape";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import CytoscapeComponent from "react-cytoscapejs";
 import { Config, names, uniqueNamesGenerator } from "unique-names-generator";
 import { v4 as uuidv4 } from "uuid";
 import { Rider, Taxi, Variant } from "../../types";
 import {
-  BackendFormatGraph,
+  BackendFormatNode,
   createTaxiGraph,
   TaxiGraph,
 } from "../../utils/utils";
@@ -19,8 +19,7 @@ const config: Config = {
 
 const GraphContainer = () => {
   const [graphData, setGraphData] = useState<TaxiGraph>([]);
-  const [backendFormatGraph, setBackendFormatGraph] =
-    useState<BackendFormatGraph>();
+  const [vertices, setVertices] = useState<BackendFormatNode[] | any>([]);
   const [riders, setRiders] = useState<Rider[]>([]);
   const [taxis, setTaxis] = useState<Taxi[]>([]);
   const [numTaxis, setNumTaxis] = useState(5);
@@ -41,12 +40,12 @@ const GraphContainer = () => {
     setTaxis([]);
     const d = createTaxiGraph(height, width);
     setGraphData(d[0]);
-    setBackendFormatGraph(d[1]);
+    // setVertices(d[1]);
   }, [height, width]);
 
-  // useEffect(() => {
-  // cy.nodes('[id = "yourId"]').style("background-color", "desiredColor");
-  // })
+  useEffect(() => {
+    cyRef?.current?.nodes('[id = "0"]').style("background-color", "red");
+  });
 
   // cy.elements()
   // cy.nodes()
@@ -57,6 +56,8 @@ const GraphContainer = () => {
   // step 3
 
   const getOrders = async () => {
+    const vertices: any[] = [];
+
     fetch("https://path-backend-service.herokuapp.com/path/getPaths", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -64,33 +65,7 @@ const GraphContainer = () => {
         numOfCabs: 4,
         numPerCar: 5,
         source: { name: "0", x: 0, y: 0 },
-        vertices: [
-          { name: "0", x: 1, y: 1 },
-          { name: "4", x: 3, y: 5 },
-          { name: "7", x: 2, y: 4 },
-          { name: "10", x: -1, y: -5 },
-          { name: "23", x: 0, y: 7 },
-          { name: "4", x: -3, y: -5 },
-          { name: "6", x: 2, y: 8 },
-          { name: "2", x: -2, y: -6 },
-          { name: "6", x: 2, y: 9 },
-          { name: "66", x: 2, y: 0 },
-          { name: "99", x: 0, y: 2 },
-          { name: "22", x: -4, y: -2 },
-          { name: "11", x: 4, y: 7 },
-          { name: "65", x: -6, y: -2 },
-          { name: "8", x: 4, y: 8 },
-          { name: "77", x: 3, y: 0 },
-          { name: "32", x: 0, y: 3 },
-          { name: "102", x: -5, y: -4 },
-          { name: "108", x: 2, y: 2 },
-          { name: "88", x: -4, y: -4 },
-          { name: "87", x: 2, y: 7 },
-          { name: "67", x: 7, y: 0 },
-          { name: "55", x: 0, y: 4 },
-          { name: "44", x: -7, y: -1 },
-          { name: "78", x: 1, y: 3 },
-        ],
+        vertices: vertices,
       }),
     })
       .then((response) => response.json())
@@ -109,20 +84,20 @@ const GraphContainer = () => {
     setOrder(o);
   };
 
+  const getApiPaths = () => {};
+
   const calculatePaths = () => {
-    console.log("NULL FUNCTION");
     if (numTaxis == 0 || !graphData || numRiders == 0) return;
-    const output = {
-      numOfCabs: numTaxis,
-      numPerCar: 4,
-      source: { name: "0", x: "0", y: "0" },
-      vertices: backendFormatGraph,
-    };
-    // getOrders();
-    // getGroups();
+    // const output = {
+    //   numOfCabs: numTaxis,
+    //   numPerCar: 4,
+    //   source: { name: "0", x: "0", y: "0" },
+    //   vertices: vertices,
+    // };
     getDummyGroups();
     getDummyOrder();
-
+    // uncomment here when api works.
+    // getOrders();
     // this works.
 
     // next, chain together each of these paths, with multiple paths
@@ -142,11 +117,7 @@ const GraphContainer = () => {
           if (dfs) dfs.path.select();
         }
       }
-      // console.log(order[i][1][j].name, order[i][1][j + 1].name);
     }
-
-    // console.log(riders);
-    // console.log(output);
   };
 
   const populateRiders = () => {
@@ -165,6 +136,18 @@ const GraphContainer = () => {
     const characterName: string = uniqueNamesGenerator(config);
     const color = "#b0c4de";
     const destination = Math.floor(Math.random() * numNodes).toString();
+    const currNode = graphData
+      .slice(0, height * width - 1)
+      .find((node) => node.data.id === destination);
+    console.log(currNode);
+    setVertices([
+      ...vertices,
+      {
+        name: currNode?.data.id,
+        x: currNode?.position.x,
+        y: currNode?.position.y,
+      },
+    ]);
     return {
       id: uuidv4(),
       name: characterName,
