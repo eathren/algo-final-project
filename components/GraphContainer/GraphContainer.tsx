@@ -96,13 +96,13 @@ const GraphContainer = () => {
 
   const getDummyGroups = () => {
     const g: any = Object.entries(dummyGroups);
-    console.log("groups", g);
+    // console.log("groups", g);
     setGroups(g);
   };
 
   const getDummyOrder = () => {
-    const o: any[] = dummyOrder[0];
-    console.log("order", o);
+    const o: any[] = dummyOrder;
+    // console.log("order", o);
     setOrder(o);
   };
 
@@ -119,15 +119,28 @@ const GraphContainer = () => {
     getDummyGroups();
     getDummyOrder();
 
-    if (cyRef) {
-      // var dfs = cyRef?.current?.elements()
-      var dfs = cyRef?.current?.elements().aStar({
-        root: "#0",
-        goal: "#20",
-        directed: true,
-      });
-      console.log(dfs);
-      if (dfs) dfs.path.select();
+    // this works.
+
+    // next, chain together each of these paths, with multiple paths
+
+    // add paths for each group
+    // in order, 1 2 3 4
+
+    for (let i = 0; i < order.length; i++) {
+      console.log(order[i]);
+      for (let j = 0; j < order[i].length; j++) {
+        console.log(order[i][j].name);
+        if (order[i].length > j + 1) {
+          var dfs = cyRef?.current?.elements().aStar({
+            root: `#${order[i][j].name}`,
+            goal: `#${order[i][j + 1].name}`,
+            directed: true,
+          });
+          console.log(dfs);
+          if (dfs) dfs.path.select();
+        }
+      }
+      // console.log(order[i][1][j].name, order[i][1][j + 1].name);
     }
 
     // console.log(riders);
