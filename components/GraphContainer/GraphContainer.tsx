@@ -118,7 +118,7 @@ const GraphContainer = () => {
       source: { name: "0", x: "0", y: "0" },
       vertices: backendFormatGraph,
     };
-    getOrders();
+    // getOrders();
     // getGroups();
     getDummyGroups();
     getDummyOrder();
