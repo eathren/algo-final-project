@@ -23,7 +23,7 @@ const GraphContainer = () => {
     useState<BackendFormatGraph>();
   const [riders, setRiders] = useState<Rider[]>([]);
   const [taxis, setTaxis] = useState<Taxi[]>([]);
-  const [numTaxis, setNumTaxis] = useState(3);
+  const [numTaxis, setNumTaxis] = useState(5);
   const [height, setHeight] = useState(12);
   const [width, setWidth] = useState(12);
   const [numRiders, setNumRiders] = useState(10);
@@ -51,16 +51,19 @@ const GraphContainer = () => {
   // cy.elements()
   // cy.nodes()
   // cy.edges()
+  // step 1:
+  // get node names, and x y coordinates
+  // step 2: match nodes and driver destinations
+  // step 3
 
-  const getGroups = async () => {
-    fetch("https://path-backend-service.herokuapp.com/path/getGroups", {
+  const getOrders = async () => {
+    fetch("https://path-backend-service.herokuapp.com/path/getPaths", {
       method: "POST",
-      mode: "no-cors",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         numOfCabs: 4,
         numPerCar: 5,
-        source: { name: "snell", x: 0, y: 0 },
+        source: { name: "0", x: 0, y: 0 },
         vertices: [
           { name: "0", x: 1, y: 1 },
           { name: "4", x: 3, y: 5 },
@@ -115,6 +118,7 @@ const GraphContainer = () => {
       source: { name: "0", x: "0", y: "0" },
       vertices: backendFormatGraph,
     };
+    getOrders();
     // getGroups();
     getDummyGroups();
     getDummyOrder();
@@ -127,9 +131,7 @@ const GraphContainer = () => {
     // in order, 1 2 3 4
 
     for (let i = 0; i < order.length; i++) {
-      console.log(order[i]);
       for (let j = 0; j < order[i].length; j++) {
-        console.log(order[i][j].name);
         if (order[i].length > j + 1) {
           var dfs = cyRef?.current?.elements().aStar({
             root: `#${order[i][j].name}`,
@@ -253,20 +255,30 @@ const GraphContainer = () => {
               style: {
                 width: 10,
                 height: 10,
-                shape: "rectangle",
+                shape: "octagon",
+              },
+            },
+
+            {
+              selector: "edge.higlighted",
+              style: {
+                "target-arrow-color": "white",
+                "target-arrow-shape": "triangle",
+                "curve-style": "bezier",
+                "background-color": "white",
               },
             },
 
             {
               selector: "edge",
               style: {
-                width: 1.5,
-                "target-arrow-color": "white",
-                "target-arrow-shape": "triangle",
-                // "curve-style": "taxi",
-
-                "curve-style": "bezier",
-                "background-color": "white",
+                width: 4,
+                "target-arrow-color": "grey",
+                "target-arrow-shape": "vee",
+                "curve-style": "segments",
+                // "curve-style": "straight",
+                // "curve-style": "haystack",
+                "background-color": "grey",
               },
             },
           ]}
