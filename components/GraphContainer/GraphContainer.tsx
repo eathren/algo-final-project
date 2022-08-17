@@ -40,12 +40,17 @@ const GraphContainer = () => {
     setTaxis([]);
     const d = createTaxiGraph(height, width);
     setGraphData(d[0]);
+
     // setVertices(d[1]);
   }, [height, width]);
 
   useEffect(() => {
     cyRef?.current?.nodes('[id = "0"]').style("background-color", "red");
   });
+
+  useEffect(() => {
+    cyRef?.current?.nodes("[id  = *").style("background-color", "grey");
+  }, [riders, taxis, height, width]);
 
   // cy.elements()
   // cy.nodes()
@@ -58,18 +63,22 @@ const GraphContainer = () => {
   const getOrders = async () => {
     const vertices: any[] = [];
 
-    fetch("https://path-backend-service.herokuapp.com/path/getPaths", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        numOfCabs: 4,
-        numPerCar: 5,
-        source: { name: "0", x: 0, y: 0 },
-        vertices: vertices,
-      }),
-    })
+    const fetchedOrder = await fetch(
+      "https://path-backend-service.herokuapp.com/path/getPaths",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          numOfCabs: numTaxis,
+          numPerCar: 4,
+          source: { name: "0", x: 0, y: 0 },
+          vertices: vertices,
+        }),
+      }
+    )
       .then((response) => response.json())
       .then((data) => console.log(data));
+    return fetchedOrder;
   };
 
   const getDummyGroups = () => {
@@ -108,13 +117,18 @@ const GraphContainer = () => {
     for (let i = 0; i < order.length; i++) {
       for (let j = 0; j < order[i].length; j++) {
         if (order[i].length > j + 1) {
-          var dfs = cyRef?.current?.elements().aStar({
+          var searchPath = cyRef?.current?.elements().aStar({
             root: `#${order[i][j].name}`,
             goal: `#${order[i][j + 1].name}`,
             directed: true,
           });
-          console.log(dfs);
-          if (dfs) dfs.path.select();
+          console.log(searchPath);
+          if (searchPath) {
+            searchPath.path
+              .style("background-color", "green")
+              .style("opacity", "1")
+              .select();
+          }
         }
       }
     }
