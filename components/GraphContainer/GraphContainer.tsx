@@ -262,7 +262,8 @@ const GraphContainer = () => {
                 width: 1.5,
                 "target-arrow-color": "red",
                 "target-arrow-shape": "triangle",
-                "curve-style": "taxi",
+                // "curve-style": "taxi",
+                "curve-style": "bezier",
               },
             },
           ]}
