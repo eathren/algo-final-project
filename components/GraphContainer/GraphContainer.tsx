@@ -216,8 +216,6 @@ const GraphContainer = () => {
     setTaxis([]);
     const d = createTaxiGraph(height, width);
     setGraphData(d[0]);
-    populateRiders();
-    populateTaxis();
 
     // setVertices(d[1]);
   }, [height, width]);
