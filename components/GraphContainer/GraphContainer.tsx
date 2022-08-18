@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import cytoscape from "cytoscape";
 import React, { useEffect, useMemo, useState } from "react";
 import CytoscapeComponent from "react-cytoscapejs";
