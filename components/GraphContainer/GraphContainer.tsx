@@ -25,7 +25,7 @@ const GraphContainer = () => {
   const [numTaxis, setNumTaxis] = useState(5);
   const [height, setHeight] = useState(12);
   const [width, setWidth] = useState(12);
-  const [numRiders, setNumRiders] = useState(10);
+  const [numRiders, setNumRiders] = useState(20);
   const [groups, setGroups] = useState<any[]>([]);
   const [order, setOrder] = useState<any[]>([]);
   // HERE. Probably an array of string ids, in order (?)
@@ -35,22 +35,14 @@ const GraphContainer = () => {
   // TODO: https://github.com/plotly/react-cytoscapejs/issues/46s
 
   // populates the inital graph, and any changes
-  useMemo(() => {
-    setRiders([]);
-    setTaxis([]);
-    const d = createTaxiGraph(height, width);
-    setGraphData(d[0]);
-
-    // setVertices(d[1]);
-  }, [height, width]);
 
   useEffect(() => {
     cyRef?.current?.nodes('[id = "0"]').style("background-color", "red");
   });
 
-  useEffect(() => {
-    cyRef?.current?.nodes("[id  = *").style("background-color", "grey");
-  }, [riders, taxis, height, width]);
+  // useEffect(() => {
+  // cyRef?.current?.nodes("[id  = *").style("background-color", "grey");
+  // }, [riders, taxis, height, width]);
 
   // cy.elements()
   // cy.nodes()
@@ -61,23 +53,27 @@ const GraphContainer = () => {
   // step 3
 
   const getOrders = async () => {
-    const vertices: any[] = [];
+    const outputData = JSON.stringify({
+      numOfCabs: numTaxis,
+      numPerCar: 4,
+      source: { name: "0", x: 0, y: 0 },
+      vertices: vertices,
+    });
 
     const fetchedOrder = await fetch(
       "https://path-backend-service.herokuapp.com/path/getPaths",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          numOfCabs: numTaxis,
-          numPerCar: 4,
-          source: { name: "0", x: 0, y: 0 },
-          vertices: vertices,
-        }),
+        body: outputData,
       }
     )
       .then((response) => response.json())
-      .then((data) => console.log(data));
+      .then(async (data) => {
+        setOrder(await data);
+      });
+    // console.log("input", outputData);
+    console.log("output", JSON.stringify(fetchedOrder));
     return fetchedOrder;
   };
 
@@ -95,44 +91,37 @@ const GraphContainer = () => {
 
   const getApiPaths = () => {};
 
-  const calculatePaths = () => {
+  const calculatePaths = async () => {
     if (numTaxis == 0 || !graphData || numRiders == 0) return;
-    // const output = {
-    //   numOfCabs: numTaxis,
-    //   numPerCar: 4,
-    //   source: { name: "0", x: "0", y: "0" },
-    //   vertices: vertices,
-    // };
-    getDummyGroups();
-    getDummyOrder();
-    // uncomment here when api works.
-    // getOrders();
-    // this works.
+    await getOrders();
+  };
 
-    // next, chain together each of these paths, with multiple paths
-
-    // add paths for each group
-    // in order, 1 2 3 4
-
+  useEffect(() => {
     for (let i = 0; i < order.length; i++) {
       for (let j = 0; j < order[i].length; j++) {
         if (order[i].length > j + 1) {
-          var searchPath = cyRef?.current?.elements().aStar({
-            root: `#${order[i][j].name}`,
-            goal: `#${order[i][j + 1].name}`,
-            directed: true,
-          });
-          console.log(searchPath);
-          if (searchPath) {
-            searchPath.path
-              .style("background-color", "green")
-              .style("opacity", "1")
-              .select();
+          const n = order[i][j].name;
+          if (n == null) console.log("NULL");
+          if (!n) console.log("UNDEFINED");
+          if (n == 0) console.log("ZERO");
+          console.log("name", order[i][j].name);
+          // undefined check
+          if (order[i][j].name && order[i][j + 1].name) {
+            // highlight path
+            const searchPath = cyRef?.current?.elements().aStar({
+              root: `#${order[i][j].name}`,
+              goal: `#${order[i][j + 1].name}`,
+              directed: true,
+            });
+            console.log(searchPath);
+            if (searchPath) {
+              searchPath.path.select();
+            }
           }
         }
       }
     }
-  };
+  });
 
   const populateRiders = () => {
     const riders: Rider[] = [];
@@ -144,7 +133,7 @@ const GraphContainer = () => {
   };
 
   const createRandomRider = () => {
-    const numNodes = height * width;
+    const numNodes = height * width - 1;
     const source = "0";
     // const source = Math.floor(Math.random() * numNodes).toString();
     const characterName: string = uniqueNamesGenerator(config);
@@ -153,7 +142,7 @@ const GraphContainer = () => {
     const currNode = graphData
       .slice(0, height * width - 1)
       .find((node) => node.data.id === destination);
-    console.log(currNode);
+    // console.log(currNode);
     setVertices([
       ...vertices,
       {
@@ -219,6 +208,17 @@ const GraphContainer = () => {
   const onNumTaxisChange = (event: { target: { value: any } }) => {
     setNumTaxis(event.target.value);
   };
+
+  useMemo(() => {
+    setRiders([]);
+    setTaxis([]);
+    const d = createTaxiGraph(height, width);
+    setGraphData(d[0]);
+    populateRiders();
+    populateTaxis();
+
+    // setVertices(d[1]);
+  }, [height, width]);
 
   const cyRef = React.useRef<cytoscape.Core | undefined>();
 

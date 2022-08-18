@@ -61,7 +61,10 @@ const RiderList = (props: Props) => {
                         {rider.name}
                       </h5>
                       <p className="text-left text-gray-900 text-md font-small ">
-                        Position: Node {rider.source}
+                        Source: Node {rider.source}
+                      </p>
+                      <p className="text-left text-gray-900 text-md font-small ">
+                        Destination: Node {rider.destination}
                       </p>
                     </div>
                   );
