@@ -12,8 +12,6 @@ import {
   TaxiGraph,
 } from "../../utils/utils";
 import RiderList from "../RiderList";
-import dummyGroups from "./dummyData.json";
-import dummyOrder from "./dummyOrder.json";
 
 const config: Config = {
   dictionaries: [names],
@@ -62,24 +60,8 @@ const GraphContainer = () => {
       .then((data) => {
         setOrder(data);
       });
-    // console.log("input", outputData);
-    console.log("output", JSON.stringify(fetchedOrder));
     return fetchedOrder;
   };
-
-  const getDummyGroups = () => {
-    const g: any = Object.entries(dummyGroups);
-    // console.log("groups", g);
-    setGroups(g);
-  };
-
-  const getDummyOrder = () => {
-    const o: any[] = dummyOrder;
-    // console.log("order", o);
-    setOrder(o);
-  };
-
-  const getApiPaths = () => {};
 
   const calculatePaths = async () => {
     if (numTaxis == 0 || !graphData || numRiders == 0) return;
@@ -87,6 +69,7 @@ const GraphContainer = () => {
   };
 
   useEffect(() => {
+    // iter through order arrays for who goes in what cab
     for (let i = 0; i < order.length; i++) {
       for (let j = 0; j < order[i].length; j++) {
         if (order[i].length > j + 1) {
@@ -113,6 +96,8 @@ const GraphContainer = () => {
     }
   });
 
+  // generates all riders
+  // Adds their data to send to the api with x,y, and node dest name
   const populateRiders = () => {
     const riders: Rider[] = [];
     for (let i = 0; i < numRiders; i++) {
@@ -122,6 +107,7 @@ const GraphContainer = () => {
     setRiders(riders);
   };
 
+  // creates 1 rider, random
   const createRandomRider = () => {
     const numNodes = height * width - 1;
     const source = "0";
@@ -151,6 +137,7 @@ const GraphContainer = () => {
     };
   };
 
+  // creates 1 taxi. Taxi capacity is static.
   const createRandomTaxi = () => {
     const source = 0;
     const characterName: string = uniqueNamesGenerator(config);
@@ -166,6 +153,7 @@ const GraphContainer = () => {
     };
   };
 
+  // creates all taxis
   const populateTaxis = () => {
     const taxis: Taxi[] = [];
     for (let i = 0; i < numTaxis; i++) {
@@ -175,6 +163,9 @@ const GraphContainer = () => {
     setTaxis(taxis);
   };
 
+  // bunch of state sent to presentational sidebar component.
+  // state is lifted up from there, so user interaction fires and
+  // modifies state.
   const clearRiders = () => {
     setRiders([]);
   };
@@ -198,18 +189,20 @@ const GraphContainer = () => {
   const onNumTaxisChange = (event: { target: { value: any } }) => {
     setNumTaxis(event.target.value);
   };
+  // end lifted state
 
+  // initial setup of graph.
   useMemo(() => {
     setRiders([]);
     setTaxis([]);
     const d = createTaxiGraph(height, width);
     setGraphData(d[0]);
-
-    // setVertices(d[1]);
   }, [height, width]);
 
+  // react cytoscape uses this ref to modify the graph. node colors, etc.
   const cyRef = React.useRef<cytoscape.Core | undefined>();
 
+  // nextjs is ssr. Cytoscape is not. Ensure window exists before render.
   if (typeof window !== "undefined") {
     return (
       <div className="static  h-screen max-h-screen grid grid-cols-5">
