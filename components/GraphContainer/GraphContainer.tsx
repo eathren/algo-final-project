@@ -30,11 +30,7 @@ const GraphContainer = () => {
   const [numRiders, setNumRiders] = useState(20);
   const [groups, setGroups] = useState<any[]>([]);
   const [order, setOrder] = useState<any[]>([]);
-  // HERE. Probably an array of string ids, in order (?)
-  // if multiple paths, then that's going to be an array of arrays.
   const [path, setPath] = useState([]);
-
-  // TODO: https://github.com/plotly/react-cytoscapejs/issues/46s
 
   // populates the inital graph, and any changes
 
@@ -45,14 +41,6 @@ const GraphContainer = () => {
   // useEffect(() => {
   // cyRef?.current?.nodes("[id  = *").style("background-color", "grey");
   // }, [riders, taxis, height, width]);
-
-  // cy.elements()
-  // cy.nodes()
-  // cy.edges()
-  // step 1:
-  // get node names, and x y coordinates
-  // step 2: match nodes and driver destinations
-  // step 3
 
   const getOrders = async () => {
     const outputData = JSON.stringify({
@@ -71,8 +59,8 @@ const GraphContainer = () => {
       }
     )
       .then((response) => response.json())
-      .then(async (data) => {
-        setOrder(await data);
+      .then((data) => {
+        setOrder(data);
       });
     // console.log("input", outputData);
     console.log("output", JSON.stringify(fetchedOrder));
