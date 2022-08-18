@@ -34,11 +34,19 @@ const GraphContainer = () => {
 
   useEffect(() => {
     cyRef?.current?.nodes('[id = "0"]').style("background-color", "red");
-  });
+    cyRef?.current?.nodes("[id  = *").style("background-color", "grey");
+  }, []);
 
-  // useEffect(() => {
-  // cyRef?.current?.nodes("[id  = *").style("background-color", "grey");
-  // }, [riders, taxis, height, width]);
+  useEffect(() => {
+    // cyRef?.current?.nodes(`[id  = "*"`).style("background-color", "grey");
+    vertices.forEach((v) => {
+      if (v.name)
+        return cyRef?.current
+          ?.nodes(`[id = "${v.name}"]`)
+          .style("background-color", "orange");
+    });
+    cyRef?.current?.nodes('[id = "0"]').style("background-color", "red");
+  }, [vertices]);
 
   const getOrders = async () => {
     const outputData = JSON.stringify({
@@ -65,6 +73,7 @@ const GraphContainer = () => {
 
   const calculatePaths = async () => {
     if (numTaxis == 0 || !graphData || numRiders == 0) return;
+    console.log(vertices);
     await getOrders();
   };
 
@@ -74,60 +83,58 @@ const GraphContainer = () => {
       for (let j = 0; j < order[i].length; j++) {
         if (order[i].length > j + 1) {
           const n = order[i][j].name;
-          if (n == null) console.log("NULL");
-          if (!n) console.log("UNDEFINED");
-          if (n == 0) console.log("ZERO");
-          console.log("name", order[i][j].name);
+          // console.log("name", order[i][j].name);
           // undefined check
-          if (order[i][j].name && order[i][j + 1].name) {
-            // highlight path
-            const searchPath = cyRef?.current?.elements().aStar({
-              root: `#${order[i][j].name}`,
-              goal: `#${order[i][j + 1].name}`,
-              directed: true,
-            });
-            console.log(searchPath);
-            if (searchPath) {
-              searchPath.path.select();
-            }
+          // if (order[i][j].name && order[i][j + 1].name) {
+          // highlight path
+          const searchPath = cyRef?.current?.elements().aStar({
+            root: `#${order[i][j].name}`,
+            goal: `#${order[i][j + 1].name}`,
+            directed: true,
+          });
+          // console.log(searchPath);
+          if (searchPath) {
+            searchPath.path.select();
           }
+          // }
         }
       }
     }
-  });
+  }, [order]);
 
   // generates all riders
   // Adds their data to send to the api with x,y, and node dest name
-  const populateRiders = () => {
-    const riders: Rider[] = [];
+  const populateRiders = async () => {
+    cyRef?.current?.nodes('[id = "0"]').style("background-color", "red");
+    cyRef?.current?.nodes("[id  = *").style("background-color", "grey");
     for (let i = 0; i < numRiders; i++) {
-      const newRider = createRandomRider();
-      riders.push(newRider);
+      await createRandomRider();
     }
-    setRiders(riders);
+    console.log("vertices", vertices);
   };
 
   // creates 1 rider, random
-  const createRandomRider = () => {
+  const createRandomRider = async () => {
     const numNodes = height * width - 1;
     const source = "0";
     // const source = Math.floor(Math.random() * numNodes).toString();
     const characterName: string = uniqueNamesGenerator(config);
     const color = "#b0c4de";
+
     const destination = Math.floor(Math.random() * numNodes).toString();
+
     const currNode = graphData
-      .slice(0, height * width - 1)
-      .find((node) => node.data.id === destination);
-    // console.log(currNode);
-    setVertices([
-      ...vertices,
-      {
-        name: currNode?.data.id,
-        x: currNode?.position.x,
-        y: currNode?.position.y,
-      },
-    ]);
-    return {
+      .filter((n) => n.data.label.includes("Node"))
+      .find((node) => node.data.id == destination);
+    console.log(currNode);
+    // console.log("currNode", currNode);
+    const newVertice = {
+      name: destination.toString(),
+      x: currNode.position.x,
+      y: currNode.position.y,
+    };
+    setVertices((vertices) => [...vertices, newVertice]);
+    const newRider: Rider = {
       id: uuidv4(),
       name: characterName,
       source: source,
@@ -135,6 +142,7 @@ const GraphContainer = () => {
       color: color,
       variant: Variant.rider,
     };
+    setRiders((riders) => [...riders, newRider]);
   };
 
   // creates 1 taxi. Taxi capacity is static.
@@ -168,10 +176,12 @@ const GraphContainer = () => {
   // modifies state.
   const clearRiders = () => {
     setRiders([]);
+    setVertices([]);
   };
 
   const clearTaxis = () => {
     setTaxis([]);
+    setVertices([]);
   };
 
   const onHeightChange = (event: { target: { value: any } }) => {
